@@ -8,7 +8,9 @@
     border-bottom: 1px solid #eee;
 }
 
-
+.active{
+    background: #cc1717 ;    
+}
 /*Cabecera */
 
 .navigation{    
@@ -17,10 +19,32 @@
 
 .navigation .navbar {
     border-radius: 0px !important;
-    background: #e74742 !important ;    
+    background: #e53c37 !important ;    
     border:none;
 }
 
 .navigation .navbar *{
     color:white !important;
 }
+
+.navigation .navbar a:hover{
+    background: #cc1717 !important;  
+}
+
+.navigation .navbar .dropdown-menu *{ 
+    color: black !important;
+}
+.nav .open > a, .nav .open > a:focus{
+    background: #cc1717 !important;  
+}
+
+.navigation .navbar .dropdown-menu a:hover{
+    background: #eee !important;  
+}
+
+.jumbotron{
+    padding:25px;
+    border-radius:20px;
+    text-align: center;
+}
+

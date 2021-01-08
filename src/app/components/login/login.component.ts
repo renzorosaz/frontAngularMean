@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
     public title: string;
     public user: User;
     public status: string;
+    public identity;
+    public token;
 
     constructor(
         private _route: ActivatedRoute,
@@ -43,12 +45,26 @@ export class LoginComponent implements OnInit {
 
         this._userService.signup(this.user).subscribe(
             response => {
-                console.log(response.user);
-                this.status='success';
+                this.identity = response.user;
+
+
+                if (!this.identity || !this.identity._id) {
+                    this.status = 'error';
+                }
+                else {
+                    this.status = 'success';
+
+                    //persistir datos del usuario
+                    localStorage.setItem('identity',JSON.stringify(this.identity)); 
+                    //conseguir el token
+                    this.getToken();
+                }
+
             },
             error => {
                 var errorMessage = <any>error;
                 console.log(errorMessage);
+
                 if (errorMessage != null) {
                     this.status = 'error';
                 }
@@ -56,5 +72,30 @@ export class LoginComponent implements OnInit {
         );
     }
 
+    getToken() {
+        this._userService.signup(this.user, 'true').subscribe(
+            response => {
+                this.token = response.token;
 
+                if (this.token.length <= 0) {
+                    this.status = 'error';
+                }
+                else {
+                    this.status = 'success';
+                    //persistir token del usuario
+                    localStorage.setItem('token',this.token);
+                    //conseguir los contadores o estadisticas del usuario
+                }
+
+            },
+            error => {
+                var errorMessage = <any>error;
+                console.log(errorMessage);
+
+                if (errorMessage != null) {
+                    this.status = 'error';
+                }
+            }
+        );
+    }
 }
