@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
                     this.status = 'error';
                 }
                 else {
-                    this.status = 'success';
+                    
 
                     //persistir datos del usuario
                     localStorage.setItem('identity',JSON.stringify(this.identity)); 
@@ -81,10 +81,12 @@ export class LoginComponent implements OnInit {
                     this.status = 'error';
                 }
                 else {
-                    this.status = 'success';
+                   
                     //persistir token del usuario
                     localStorage.setItem('token',this.token);
                     //conseguir los contadores o estadisticas del usuario
+                    this.getCounters();
+
                 }
 
             },
@@ -97,5 +99,20 @@ export class LoginComponent implements OnInit {
                 }
             }
         );
+    }
+
+    getCounters(){
+        this._userService.getCounters().subscribe(
+            response =>{
+                console.log(response);
+                localStorage.setItem('stats',JSON.stringify(response));
+                this.status ='success'
+                this._router.navigate(['/']);
+            },
+            error=>{
+                console.log(<any>error);
+            }
+
+        )
     }
 }
